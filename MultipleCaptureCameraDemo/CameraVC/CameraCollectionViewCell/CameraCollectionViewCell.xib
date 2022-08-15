@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cameracell" id="gTV-IL-0wX" customClass="CameraCollectionViewCell" customModule="MultipleCaptureCameraDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="107" height="81"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="107" height="81"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BAo-Jj-tce">
+                        <rect key="frame" x="0.0" y="0.0" width="107" height="81"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4dm-sF-gbw">
+                                <rect key="frame" x="0.0" y="0.0" width="107" height="81"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mFF-8L-5Gy">
+                                <rect key="frame" x="77" y="8" width="22" height="22"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="mFF-8L-5Gy" secondAttribute="height" multiplier="1:1" id="8En-yT-Gea"/>
+                                    <constraint firstAttribute="width" constant="22" id="ffm-oR-FYI"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="cross"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="4dm-sF-gbw" secondAttribute="trailing" id="56u-z8-KAo"/>
+                            <constraint firstItem="4dm-sF-gbw" firstAttribute="top" secondItem="BAo-Jj-tce" secondAttribute="top" id="PVI-LD-Q2N"/>
+                            <constraint firstAttribute="bottom" secondItem="4dm-sF-gbw" secondAttribute="bottom" id="SSu-3N-rjO"/>
+                            <constraint firstItem="mFF-8L-5Gy" firstAttribute="top" secondItem="BAo-Jj-tce" secondAttribute="top" constant="8" id="T4G-6Y-CqN"/>
+                            <constraint firstAttribute="trailing" secondItem="mFF-8L-5Gy" secondAttribute="trailing" constant="8" id="awE-YE-UuQ"/>
+                            <constraint firstItem="4dm-sF-gbw" firstAttribute="leading" secondItem="BAo-Jj-tce" secondAttribute="leading" id="qsY-uT-IMZ"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="BAo-Jj-tce" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="45D-Fk-rAA"/>
+                <constraint firstAttribute="bottom" secondItem="BAo-Jj-tce" secondAttribute="bottom" id="DER-NZ-1qP"/>
+                <constraint firstItem="BAo-Jj-tce" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="JqC-No-7By"/>
+                <constraint firstAttribute="trailing" secondItem="BAo-Jj-tce" secondAttribute="trailing" id="W95-q2-Kdd"/>
+            </constraints>
+            <size key="customSize" width="279" height="204"/>
+            <connections>
+                <outlet property="deleteBtn" destination="mFF-8L-5Gy" id="Okg-n6-o60"/>
+                <outlet property="imageView" destination="4dm-sF-gbw" id="DYP-zQ-Jzo"/>
+            </connections>
+            <point key="canvasLocation" x="302.17391304347831" y="96.763392857142847"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="cross" width="61" height="61"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

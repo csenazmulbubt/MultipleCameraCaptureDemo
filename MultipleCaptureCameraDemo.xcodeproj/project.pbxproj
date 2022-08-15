@@ -16,6 +16,15 @@
 		004F802428A8B51F00D504DC /* MultipleCaptureCameraDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F802328A8B51F00D504DC /* MultipleCaptureCameraDemoTests.swift */; };
 		004F802E28A8B51F00D504DC /* MultipleCaptureCameraDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F802D28A8B51F00D504DC /* MultipleCaptureCameraDemoUITests.swift */; };
 		004F803028A8B51F00D504DC /* MultipleCaptureCameraDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F802F28A8B51F00D504DC /* MultipleCaptureCameraDemoUITestsLaunchTests.swift */; };
+		004F803F28A8C0BE00D504DC /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F803D28A8C0BD00D504DC /* CameraVC.swift */; };
+		004F804028A8C0BE00D504DC /* CameraVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 004F803E28A8C0BE00D504DC /* CameraVC.xib */; };
+		004F804328A8CD6A00D504DC /* TriggerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F804228A8CD6A00D504DC /* TriggerButton.swift */; };
+		004F804728A8FDCD00D504DC /* CameraCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F804528A8FDCD00D504DC /* CameraCollectionViewCell.swift */; };
+		004F804828A8FDCD00D504DC /* CameraCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 004F804628A8FDCD00D504DC /* CameraCollectionViewCell.xib */; };
+		004F804C28A903C600D504DC /* CaptureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F804B28A903C600D504DC /* CaptureManager.swift */; };
+		004F804E28A9041900D504DC /* LowLightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F804D28A9041900D504DC /* LowLightService.swift */; };
+		004F805028A9042B00D504DC /* LightingCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F804F28A9042B00D504DC /* LightingCondition.swift */; };
+		00B2AC2028AA5B1E006425D9 /* PhotoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B2AC1F28AA5B1E006425D9 /* PhotoStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +58,15 @@
 		004F802928A8B51F00D504DC /* MultipleCaptureCameraDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultipleCaptureCameraDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		004F802D28A8B51F00D504DC /* MultipleCaptureCameraDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleCaptureCameraDemoUITests.swift; sourceTree = "<group>"; };
 		004F802F28A8B51F00D504DC /* MultipleCaptureCameraDemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleCaptureCameraDemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		004F803D28A8C0BD00D504DC /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
+		004F803E28A8C0BE00D504DC /* CameraVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraVC.xib; sourceTree = "<group>"; };
+		004F804228A8CD6A00D504DC /* TriggerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerButton.swift; sourceTree = "<group>"; };
+		004F804528A8FDCD00D504DC /* CameraCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCollectionViewCell.swift; sourceTree = "<group>"; };
+		004F804628A8FDCD00D504DC /* CameraCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraCollectionViewCell.xib; sourceTree = "<group>"; };
+		004F804B28A903C600D504DC /* CaptureManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureManager.swift; sourceTree = "<group>"; };
+		004F804D28A9041900D504DC /* LowLightService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LowLightService.swift; sourceTree = "<group>"; };
+		004F804F28A9042B00D504DC /* LightingCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightingCondition.swift; sourceTree = "<group>"; };
+		00B2AC1F28AA5B1E006425D9 /* PhotoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +117,7 @@
 		004F800B28A8B51C00D504DC /* MultipleCaptureCameraDemo */ = {
 			isa = PBXGroup;
 			children = (
+				004F803C28A8C09700D504DC /* CameraVC */,
 				004F800C28A8B51C00D504DC /* AppDelegate.swift */,
 				004F800E28A8B51C00D504DC /* SceneDelegate.swift */,
 				004F801028A8B51C00D504DC /* ViewController.swift */,
@@ -125,6 +144,46 @@
 				004F802F28A8B51F00D504DC /* MultipleCaptureCameraDemoUITestsLaunchTests.swift */,
 			);
 			path = MultipleCaptureCameraDemoUITests;
+			sourceTree = "<group>";
+		};
+		004F803C28A8C09700D504DC /* CameraVC */ = {
+			isa = PBXGroup;
+			children = (
+				00B2AC1E28AA34AD006425D9 /* CaptureManager */,
+				004F804428A8FD7300D504DC /* CameraCollectionViewCell */,
+				004F804128A8CBF100D504DC /* CameraUtility */,
+				004F803D28A8C0BD00D504DC /* CameraVC.swift */,
+				004F803E28A8C0BE00D504DC /* CameraVC.xib */,
+			);
+			path = CameraVC;
+			sourceTree = "<group>";
+		};
+		004F804128A8CBF100D504DC /* CameraUtility */ = {
+			isa = PBXGroup;
+			children = (
+				004F804F28A9042B00D504DC /* LightingCondition.swift */,
+				004F804D28A9041900D504DC /* LowLightService.swift */,
+				004F804228A8CD6A00D504DC /* TriggerButton.swift */,
+				00B2AC1F28AA5B1E006425D9 /* PhotoStorage.swift */,
+			);
+			path = CameraUtility;
+			sourceTree = "<group>";
+		};
+		004F804428A8FD7300D504DC /* CameraCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				004F804528A8FDCD00D504DC /* CameraCollectionViewCell.swift */,
+				004F804628A8FDCD00D504DC /* CameraCollectionViewCell.xib */,
+			);
+			path = CameraCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		00B2AC1E28AA34AD006425D9 /* CaptureManager */ = {
+			isa = PBXGroup;
+			children = (
+				004F804B28A903C600D504DC /* CaptureManager.swift */,
+			);
+			path = CaptureManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,6 +293,8 @@
 				004F801928A8B51F00D504DC /* LaunchScreen.storyboard in Resources */,
 				004F801628A8B51F00D504DC /* Assets.xcassets in Resources */,
 				004F801428A8B51C00D504DC /* Main.storyboard in Resources */,
+				004F804028A8C0BE00D504DC /* CameraVC.xib in Resources */,
+				004F804828A8FDCD00D504DC /* CameraCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,8 +320,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				004F801128A8B51C00D504DC /* ViewController.swift in Sources */,
+				004F804C28A903C600D504DC /* CaptureManager.swift in Sources */,
 				004F800D28A8B51C00D504DC /* AppDelegate.swift in Sources */,
+				004F804E28A9041900D504DC /* LowLightService.swift in Sources */,
+				00B2AC2028AA5B1E006425D9 /* PhotoStorage.swift in Sources */,
+				004F804328A8CD6A00D504DC /* TriggerButton.swift in Sources */,
+				004F804728A8FDCD00D504DC /* CameraCollectionViewCell.swift in Sources */,
 				004F800F28A8B51C00D504DC /* SceneDelegate.swift in Sources */,
+				004F805028A9042B00D504DC /* LightingCondition.swift in Sources */,
+				004F803F28A8C0BE00D504DC /* CameraVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,7 +507,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y3VRYY266M;
+				DEVELOPMENT_TEAM = GDHMVG3F84;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MultipleCaptureCameraDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -467,7 +535,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y3VRYY266M;
+				DEVELOPMENT_TEAM = GDHMVG3F84;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MultipleCaptureCameraDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
