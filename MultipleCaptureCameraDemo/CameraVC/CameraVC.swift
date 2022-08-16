@@ -29,7 +29,7 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
     private let imageCache = NSCache<NSString, UIImage>()
     private var currentPhotoCaptureCount = 0
     
-    public var maximumPhotoCapture = 5
+    public var maximumPhotoCaptureLimit = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -130,7 +130,7 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
     
     
     @IBAction func tappedOnCaptureBtn(_ sender: TriggerButton) {
-        if currentPhotoCaptureCount == maximumPhotoCapture {
+        if currentPhotoCaptureCount == maximumPhotoCaptureLimit {
             self.exceedMaximumPhotoCaptureAlert()
             return
         }

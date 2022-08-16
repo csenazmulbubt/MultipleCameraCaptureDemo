@@ -22,6 +22,7 @@ class ViewController: UIViewController{
         guard let navController = storyboard.instantiateViewController(withIdentifier: "navCameraVC") as? UINavigationController else {return}
         let vc = navController.viewControllers.first as! CameraVC
         vc.cameraVCDelegate = self
+        vc.maximumPhotoCaptureLimit = 5
         navController.modalPresentationStyle = .fullScreen
         self.present(navController, animated: true, completion: nil)
     }
