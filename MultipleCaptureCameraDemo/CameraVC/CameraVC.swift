@@ -9,15 +9,14 @@ import UIKit
 import Foundation
 
 protocol CameraVCDelegate: NSObjectProtocol {
-    
     func dismissWithPhotosUrl(photosUrl: [URL])
 }
 
 class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
     
     @IBOutlet weak var cameraCaptureButton: TriggerButton!
-    @IBOutlet weak var previewLayer: UIView!
-    @IBOutlet weak var flashButton: UIButton!
+    @IBOutlet weak var previewLayerView: UIView!
+    @IBOutlet weak var flashBarButton: UIBarButtonItem!
     @IBOutlet weak var cameraPhotoCollectionView: UICollectionView!
     
     weak var cameraVCDelegate: CameraVCDelegate?
@@ -28,30 +27,62 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
     private var photosUrl = [URL]()
     private let maxLowResolutionSideLength = CGFloat(200)
     private let imageCache = NSCache<NSString, UIImage>()
+    private var currentPhotoCaptureCount = 0
+    
+    public var maximumPhotoCapture = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.setupCollectionView()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.setCollectionViewPhotoLayout()
             self.cameraCaptureButton.layer.cornerRadius = self.cameraCaptureButton.bounds.size.height / 2.0
+            self.setUpNavigationLeftBarButton()
         }
-        flashButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
-        flashButton.tintColor = UIColor.white
-        flashButton.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        self.roundifyButton(flashButton)
+        
+        if let nav = navigationController {
+            nav.navigationBar.barStyle = UIBarStyle.black
+            nav.navigationBar.tintColor = UIColor.white
+            nav.navigationBar.isTranslucent = false
+            self.setNavigationBarAppearance(navigationController: nav, withNavigationBarBackgroundColor: UIColor.black , andNavigationTitleColor:  UIColor.black)
+        }
+       
     }
     
     override var prefersStatusBarHidden: Bool{
         return true
     }
     
+    private func setUpNavigationLeftBarButton(){
+        let flashButton = UIButton(type: .system)
+        flashButton.setImage(UIImage(named: "LightningIcon"), for: .normal)
+        flashButton.setTitle("Auto", for: .normal)
+        flashButton.sizeToFit()
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: flashButton)
+        flashButton.addTarget(self, action: #selector(self.tappedOnFlashBtnAction), for: .touchUpInside)
+    }
+    
+    private func setNavigationBarAppearance(navigationController navController: UINavigationController, withNavigationBarBackgroundColor navBGColor: UIColor, andNavigationTitleColor titleColor: UIColor) {
+        
+        navController.navigationBar.shadowImage = UIImage()
+        
+        if #available(iOS 15.0, *) {
+            // if only change background color
+            //navigationController?.view.backgroundColor = UIColor(named: "appOrangeColor")
+            //if need to change title color
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: titleColor]
+            appearance.backgroundColor = navBGColor
+            navController.navigationBar.standardAppearance = appearance
+            navController.navigationBar.scrollEdgeAppearance = appearance
+        }
+    }
+    
     private func setupCollectionView() {
+        cameraPhotoCollectionView.alwaysBounceHorizontal = true
         cameraPhotoCollectionView.dragInteractionEnabled = true
-        cameraPhotoCollectionView.dragDelegate = self
-        cameraPhotoCollectionView.dropDelegate = self
-        cameraPhotoCollectionView.delegate = self
-        cameraPhotoCollectionView.dataSource = self
         let nib = UINib(nibName: "CameraCollectionViewCell",bundle: nil)
         self.cameraPhotoCollectionView.register(nib, forCellWithReuseIdentifier: "cameracell")
     }
@@ -61,7 +92,7 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         //total item show 4.5 spaceing 10*4
         let sizeG = cameraPhotoCollectionView.bounds.size
-        layout.itemSize = CGSize(width: (sizeG.width - 52) / 4.5 , height: sizeG.height - 5)
+        layout.itemSize = CGSize(width: (sizeG.width - 52) / 4.5 , height: sizeG.height - 0.5)
         layout.minimumInteritemSpacing = 8
         layout.minimumLineSpacing = 8
         layout.scrollDirection = .horizontal
@@ -71,8 +102,8 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let previewLayer = captureManager.previewLayer
-        previewLayer.frame = self.previewLayer.bounds
-        self.previewLayer.layer.addSublayer(previewLayer)
+        previewLayer.frame = self.previewLayerView.bounds
+        self.previewLayerView.layer.addSublayer(previewLayer)
         captureManager.prepare { [weak self] isPermitted in
             if isPermitted == nil{
                 self?.showCameraPermissionAlert()
@@ -90,38 +121,41 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
         }
     }
     
-    
-    //MARK: - tapped on done btn
-    @IBAction func tappedOnDoneBtn(_ sender: UIButton) {
+    @IBAction func tappedOnDoneBtn(_ sender: UIBarButtonItem) {
         self.captureManager.stop(nil)
         cameraVCDelegate?.dismissWithPhotosUrl(photosUrl: self.photosUrl)
         self.dismiss(animated: true, completion: nil)
     }
     
     
+    
     @IBAction func tappedOnCaptureBtn(_ sender: TriggerButton) {
-        
-        //TODO: Must be btn disable enable
+        if currentPhotoCaptureCount == maximumPhotoCapture {
+            self.exceedMaximumPhotoCaptureAlert()
+            return
+        }
         sender.isEnabled = false
         captureManager.captureImage()
-        
+        currentPhotoCaptureCount += 1
     }
     
-    @IBAction func tappedOnFlashBtn(_ sender: UIButton) {
-        
+    @objc func tappedOnFlashBtnAction() {
         let mode = captureManager.nextAvailableFlashMode() ?? .off
+        let item = self.navigationItem.leftBarButtonItem!
+        let button = item.customView as! UIButton
         captureManager.changeFlashMode(mode) {
             switch mode {
             case .off:
-                self.flashButton.setTitle("off", for: .normal)
+                button.setTitle("Off", for: .normal)
             case .on:
-                self.flashButton.setTitle("on", for: .normal)
+                button.setTitle("On", for: .normal)
             case .auto:
-                self.flashButton.setTitle("auto", for: .normal)
+                button.setTitle("Auto", for: .normal)
             @unknown default:
                 break
             }
         }
+      
     }
     
     private func roundifyButton(_ button: UIButton, inset: CGFloat = 16) {
@@ -158,7 +192,6 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
                     } else {
                         scale = maxLowResolutionSideLength / image.size.height
                     }
-                    
                     let newWidth  = CGFloat(roundf(Float(image.size.width) * Float(scale)))
                     let newHeight = CGFloat(roundf(Float(image.size.height) * Float(scale)))
                     let resizeImg = image.imgly_normalizedImageOfSize(CGSize(width: newWidth, height: newHeight))
@@ -191,6 +224,24 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
                                                 style: .cancel) { action -> Void in
             self.dismiss(animated: true, completion: nil)
         })
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func exceedMaximumPhotoCaptureAlert() -> Void {
+        
+        let title = "Exceeded Maximum Limit"
+        //let message = "This app requires access to your device's Camera.\n\nPlease enable Camera access for this app in Settings / Privacy / Camera"
+        
+        let alertController = UIAlertController(title: title, message: "", preferredStyle: .alert)
+        
+        alertController.addAction(UIAlertAction(title: "OK",
+                                                style: .default) { action -> Void in
+            //self.gotoAppPrivacySettings()
+        })
+       /* alertController.addAction(UIAlertAction(title: "Cancel",
+                                                style: .cancel) { action -> Void in
+            self.dismiss(animated: true, completion: nil)
+        })*/
         self.present(alertController, animated: true, completion: nil)
     }
     
@@ -299,6 +350,7 @@ extension CameraVC: CameraCollectionViewDelegate{
     func tappedOnDeleteBtn(cell: CameraCollectionViewCell) {
         if let indexPath = cameraPhotoCollectionView.indexPath(for: cell) {
             let url = self.photosUrl[indexPath.item]
+            currentPhotoCaptureCount -= 1
             self.photosUrl.remove(at: indexPath.item)
             self.imageCache.removeObject(forKey: url.path as NSString)
             cameraPhotoCollectionView.performBatchUpdates({

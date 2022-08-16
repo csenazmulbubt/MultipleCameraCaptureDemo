@@ -24,14 +24,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="107" height="81"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mFF-8L-5Gy">
-                                <rect key="frame" x="77" y="8" width="22" height="22"/>
+                                <rect key="frame" x="85" y="0.0" width="22" height="22"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="mFF-8L-5Gy" secondAttribute="height" multiplier="1:1" id="8En-yT-Gea"/>
-                                    <constraint firstAttribute="width" constant="22" id="ffm-oR-FYI"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="cross"/>
+                                <state key="normal" image="sticker-delete"/>
                                 <connections>
                                     <action selector="tappedOnDeleteBtn:" destination="gTV-IL-0wX" eventType="touchUpInside" id="eJL-gf-BAG"/>
                                 </connections>
@@ -42,8 +41,8 @@
                             <constraint firstAttribute="trailing" secondItem="4dm-sF-gbw" secondAttribute="trailing" id="56u-z8-KAo"/>
                             <constraint firstItem="4dm-sF-gbw" firstAttribute="top" secondItem="BAo-Jj-tce" secondAttribute="top" id="PVI-LD-Q2N"/>
                             <constraint firstAttribute="bottom" secondItem="4dm-sF-gbw" secondAttribute="bottom" id="SSu-3N-rjO"/>
-                            <constraint firstItem="mFF-8L-5Gy" firstAttribute="top" secondItem="BAo-Jj-tce" secondAttribute="top" constant="8" id="T4G-6Y-CqN"/>
-                            <constraint firstAttribute="trailing" secondItem="mFF-8L-5Gy" secondAttribute="trailing" constant="8" id="awE-YE-UuQ"/>
+                            <constraint firstItem="mFF-8L-5Gy" firstAttribute="top" secondItem="BAo-Jj-tce" secondAttribute="top" id="T4G-6Y-CqN"/>
+                            <constraint firstAttribute="trailing" secondItem="mFF-8L-5Gy" secondAttribute="trailing" id="awE-YE-UuQ"/>
                             <constraint firstItem="4dm-sF-gbw" firstAttribute="leading" secondItem="BAo-Jj-tce" secondAttribute="leading" id="qsY-uT-IMZ"/>
                         </constraints>
                     </view>
@@ -65,7 +64,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="cross" width="61" height="61"/>
+        <image name="sticker-delete" width="17" height="17"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

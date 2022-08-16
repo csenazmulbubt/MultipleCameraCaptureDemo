@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000E08DD28AB8D1900CC126F /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 000E08DC28AB8D1900CC126F /* Camera.storyboard */; };
 		004F800D28A8B51C00D504DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F800C28A8B51C00D504DC /* AppDelegate.swift */; };
 		004F800F28A8B51C00D504DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F800E28A8B51C00D504DC /* SceneDelegate.swift */; };
 		004F801128A8B51C00D504DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F801028A8B51C00D504DC /* ViewController.swift */; };
@@ -17,7 +18,6 @@
 		004F802E28A8B51F00D504DC /* MultipleCaptureCameraDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F802D28A8B51F00D504DC /* MultipleCaptureCameraDemoUITests.swift */; };
 		004F803028A8B51F00D504DC /* MultipleCaptureCameraDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F802F28A8B51F00D504DC /* MultipleCaptureCameraDemoUITestsLaunchTests.swift */; };
 		004F803F28A8C0BE00D504DC /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F803D28A8C0BD00D504DC /* CameraVC.swift */; };
-		004F804028A8C0BE00D504DC /* CameraVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 004F803E28A8C0BE00D504DC /* CameraVC.xib */; };
 		004F804328A8CD6A00D504DC /* TriggerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F804228A8CD6A00D504DC /* TriggerButton.swift */; };
 		004F804728A8FDCD00D504DC /* CameraCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F804528A8FDCD00D504DC /* CameraCollectionViewCell.swift */; };
 		004F804828A8FDCD00D504DC /* CameraCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 004F804628A8FDCD00D504DC /* CameraCollectionViewCell.xib */; };
@@ -45,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		000E08DC28AB8D1900CC126F /* Camera.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
 		004F800928A8B51C00D504DC /* MultipleCaptureCameraDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultipleCaptureCameraDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		004F800C28A8B51C00D504DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		004F800E28A8B51C00D504DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,7 +60,6 @@
 		004F802D28A8B51F00D504DC /* MultipleCaptureCameraDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleCaptureCameraDemoUITests.swift; sourceTree = "<group>"; };
 		004F802F28A8B51F00D504DC /* MultipleCaptureCameraDemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleCaptureCameraDemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		004F803D28A8C0BD00D504DC /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
-		004F803E28A8C0BE00D504DC /* CameraVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraVC.xib; sourceTree = "<group>"; };
 		004F804228A8CD6A00D504DC /* TriggerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerButton.swift; sourceTree = "<group>"; };
 		004F804528A8FDCD00D504DC /* CameraCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCollectionViewCell.swift; sourceTree = "<group>"; };
 		004F804628A8FDCD00D504DC /* CameraCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 				004F804428A8FD7300D504DC /* CameraCollectionViewCell */,
 				004F804128A8CBF100D504DC /* CameraUtility */,
 				004F803D28A8C0BD00D504DC /* CameraVC.swift */,
-				004F803E28A8C0BE00D504DC /* CameraVC.xib */,
+				000E08DC28AB8D1900CC126F /* Camera.storyboard */,
 			);
 			path = CameraVC;
 			sourceTree = "<group>";
@@ -293,8 +293,8 @@
 				004F801928A8B51F00D504DC /* LaunchScreen.storyboard in Resources */,
 				004F801628A8B51F00D504DC /* Assets.xcassets in Resources */,
 				004F801428A8B51C00D504DC /* Main.storyboard in Resources */,
-				004F804028A8C0BE00D504DC /* CameraVC.xib in Resources */,
 				004F804828A8FDCD00D504DC /* CameraCollectionViewCell.xib in Resources */,
+				000E08DD28AB8D1900CC126F /* Camera.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

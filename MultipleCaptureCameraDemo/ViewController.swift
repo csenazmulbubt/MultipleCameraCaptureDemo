@@ -18,10 +18,12 @@ class ViewController: UIViewController{
     }
     
     @IBAction func tappedOnOpenCamera(_ sender: UIButton) {
-        let vc = CameraVC()
-        vc.modalPresentationStyle = .fullScreen
+        let storyboard = UIStoryboard(name: "Camera", bundle: nil)
+        guard let navController = storyboard.instantiateViewController(withIdentifier: "navCameraVC") as? UINavigationController else {return}
+        let vc = navController.viewControllers.first as! CameraVC
         vc.cameraVCDelegate = self
-        self.present(vc, animated: true, completion: nil)
+        navController.modalPresentationStyle = .fullScreen
+        self.present(navController, animated: true, completion: nil)
     }
 
 }

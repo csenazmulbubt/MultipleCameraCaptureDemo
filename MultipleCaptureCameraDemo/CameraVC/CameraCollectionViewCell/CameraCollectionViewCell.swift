@@ -19,12 +19,12 @@ class CameraCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.layer.cornerRadius = 8
+        self.contentView.clipsToBounds = true
         // Initialization code
     }
     
     @IBAction func tappedOnDeleteBtn(_ sender: UIButton) {
         cameraCellDelegate?.tappedOnDeleteBtn(cell: self)
     }
-    
-
 }
