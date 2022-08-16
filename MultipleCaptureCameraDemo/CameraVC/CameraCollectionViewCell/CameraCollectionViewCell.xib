@@ -32,6 +32,9 @@
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="cross"/>
+                                <connections>
+                                    <action selector="tappedOnDeleteBtn:" destination="gTV-IL-0wX" eventType="touchUpInside" id="eJL-gf-BAG"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

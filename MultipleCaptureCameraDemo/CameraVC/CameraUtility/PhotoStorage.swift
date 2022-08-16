@@ -88,7 +88,6 @@ class PhotoStorage {
         }
     }
 
-    
    private func generateCurrentTimeStamp () -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy_MM_dd_hh_mm_ss"
@@ -97,7 +96,7 @@ class PhotoStorage {
     
 }
 
-extension UIImage{
+private extension UIImage{
     //Capture image fix orientation
     func fixImageOrientation() -> UIImage {
         autoreleasepool {

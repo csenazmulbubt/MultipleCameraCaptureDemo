@@ -114,7 +114,7 @@ class CaptureManager: NSObject {
     }
     
     // Prepares the capture session, possibly asking the user for camera access.
-    func prepare(_ completion: @escaping (NSError?) -> Void) {
+    func prepare(_ completion: @escaping (Bool?) -> Void) {
         switch authorizationStatus() {
         case .authorized:
             configure(completion)
@@ -124,13 +124,12 @@ class CaptureManager: NSObject {
                     self.configure(completion)
                 } else {
                     DispatchQueue.main.async {
-                        //completion(self.accessDeniedError(FinjinonCameraAccessErrorDeniedInitialRequestCode))
+                       completion(nil)
                     }
                 }
             })
         case .denied, .restricted:
-            print("ACCESS DEINED")
-            //completion(accessDeniedError())
+            completion(nil)
         @unknown default:
             return
         }
@@ -265,22 +264,22 @@ private extension CaptureManager {
         }
     }
     
-    func configure(_ completion: @escaping (NSError?) -> Void) {
+    func configure(_ completion: @escaping (Bool?) -> Void) {
         captureQueue.async { [weak self] in
             guard let self = self else { return }
             
             self.cameraDevice = self.cameraDeviceWithPosition(.back)
-            var error: NSError?
+            
+            guard let cameraDevice =  self.cameraDevice else { return}
             
             do {
-                let input = try AVCaptureDeviceInput(device: self.cameraDevice!)
+                let input = try AVCaptureDeviceInput(device: cameraDevice)
                 if self.session.canAddInput(input) {
                     self.session.addInput(input)
                 } else {
                     NSLog("Failed to add input \(input) to session \(self.session)")
                 }
             } catch let error1 as NSError {
-                error = error1
                 self.delegate?.captureManager(self, didFailWithError: error1)
             }
             
@@ -298,7 +297,6 @@ private extension CaptureManager {
                     do {
                         try cameraDevice.lockForConfiguration()
                     } catch let error1 as NSError {
-                        error = error1
                         self.delegate?.captureManager(self, didFailWithError: error1)
                     }
                     cameraDevice.focusMode = .continuousAutoFocus
@@ -311,7 +309,7 @@ private extension CaptureManager {
             self.session.startRunning()
             self.cameraIsSetup = true
             DispatchQueue.main.async {
-                completion(error)
+                completion(true)
             }
         }
     }

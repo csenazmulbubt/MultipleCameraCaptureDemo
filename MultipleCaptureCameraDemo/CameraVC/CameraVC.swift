@@ -6,18 +6,21 @@
 //
 
 import UIKit
+import Foundation
+
+protocol CameraVCDelegate: NSObjectProtocol {
+    
+    func dismissWithPhotosUrl(photosUrl: [URL])
+}
 
 class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
-   
-    
     
     @IBOutlet weak var cameraCaptureButton: TriggerButton!
-    
     @IBOutlet weak var previewLayer: UIView!
-    
     @IBOutlet weak var flashButton: UIButton!
-    
     @IBOutlet weak var cameraPhotoCollectionView: UICollectionView!
+    
+    weak var cameraVCDelegate: CameraVCDelegate?
     
     private let captureManager = CaptureManager()
     private var isfirst = true
@@ -28,25 +31,29 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cameraPhotoCollectionView.delegate = self
-        cameraPhotoCollectionView.dataSource = self
-        
-        let nib = UINib(nibName: "CameraCollectionViewCell",bundle: nil)
-        self.cameraPhotoCollectionView.register(nib, forCellWithReuseIdentifier: "cameracell")
+        self.setupCollectionView()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.setCollectionViewPhotoLayout()
             self.cameraCaptureButton.layer.cornerRadius = self.cameraCaptureButton.bounds.size.height / 2.0
-            print("Preview layer",self.previewLayer.bounds)
         }
         flashButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
         flashButton.tintColor = UIColor.white
         flashButton.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.roundifyButton(flashButton)
-        // Do any additional setup after loading the view.
     }
     
     override var prefersStatusBarHidden: Bool{
         return true
+    }
+    
+    private func setupCollectionView() {
+        cameraPhotoCollectionView.dragInteractionEnabled = true
+        cameraPhotoCollectionView.dragDelegate = self
+        cameraPhotoCollectionView.dropDelegate = self
+        cameraPhotoCollectionView.delegate = self
+        cameraPhotoCollectionView.dataSource = self
+        let nib = UINib(nibName: "CameraCollectionViewCell",bundle: nil)
+        self.cameraPhotoCollectionView.register(nib, forCellWithReuseIdentifier: "cameracell")
     }
     
     func setCollectionViewPhotoLayout() -> Void {
@@ -62,13 +69,13 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         let previewLayer = captureManager.previewLayer
         previewLayer.frame = self.previewLayer.bounds
         self.previewLayer.layer.addSublayer(previewLayer)
-        
-        captureManager.prepare { [weak self] erro in
-            if let err = erro{
-              
+        captureManager.prepare { [weak self] isPermitted in
+            if isPermitted == nil{
+                self?.showCameraPermissionAlert()
             }
         }
         captureManager.delegate = self
@@ -87,6 +94,7 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
     //MARK: - tapped on done btn
     @IBAction func tappedOnDoneBtn(_ sender: UIButton) {
         self.captureManager.stop(nil)
+        cameraVCDelegate?.dismissWithPhotosUrl(photosUrl: self.photosUrl)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -126,7 +134,7 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
         button.configuration?.imagePadding -= inset
     }
     
-    fileprivate func didAddAsset() {
+    private func didAddAsset() {
         DispatchQueue.main.async {
             self.cameraPhotoCollectionView.performBatchUpdates({
                 let insertedIndexPath: IndexPath
@@ -138,7 +146,7 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
         }
     }
     
-    func resizeImageForCollectionViewShow(imagePath: String) -> UIImage {
+    private func resizeImageForCollectionViewShow(imagePath: String) -> UIImage {
         
         autoreleasepool {
             if let image = UIImage(contentsOfFile: imagePath) {
@@ -162,10 +170,36 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
         }
     }
     
-    fileprivate func scrollToLastAddedAssetAnimated(_ animated: Bool) {
+    private func scrollToLastAddedAssetAnimated(_ animated: Bool) {
         if photosUrl.count > 0 {
             cameraPhotoCollectionView.scrollToItem(at: IndexPath(item: photosUrl.count - 1, section: 0), at: .left, animated: animated)
         }
+    }
+    
+    private func showCameraPermissionAlert() -> Void {
+        
+        let title = "Camera Access Denied"
+        let message = "This app requires access to your device's Camera.\n\nPlease enable Camera access for this app in Settings / Privacy / Camera"
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alertController.addAction(UIAlertAction(title: "Settings",
+                                                style: .destructive) { action -> Void in
+            self.gotoAppPrivacySettings()
+        })
+        alertController.addAction(UIAlertAction(title: "Cancel",
+                                                style: .cancel) { action -> Void in
+            self.dismiss(animated: true, completion: nil)
+        })
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func gotoAppPrivacySettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+              UIApplication.shared.canOpenURL(url) else {
+                  return
+              }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     
 }
@@ -179,6 +213,7 @@ extension CameraVC: UICollectionViewDataSource, UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cameracell", for: indexPath) as? CameraCollectionViewCell
+        
         let itemPath = photosUrl[indexPath.item]
         var image = UIImage()
         
@@ -189,14 +224,94 @@ extension CameraVC: UICollectionViewDataSource, UICollectionViewDelegate{
             image = self.resizeImageForCollectionViewShow(imagePath: itemPath.path)
         }
         cell?.imageView.image = image
+        cell?.deleteBtn.tag = indexPath.item
+        cell?.cameraCellDelegate = self
         return cell!
     }
     
 }
 
-//MARK: - CaptureManagerDelegate
-extension CameraVC: CaptureManagerDelegate{
+//MARK: - UICollectionViewDragDelegate,UICollectionViewDropDelegate
+extension CameraVC: UICollectionViewDragDelegate,UICollectionViewDropDelegate{
     
+    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        
+        let itemProvider = NSItemProvider(object: "\(indexPath)" as NSString)
+        let dragItem = UIDragItem(itemProvider: itemProvider)
+        dragItem.localObject = photosUrl[indexPath.item]
+        return [dragItem]
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
+        
+        return true
+    }
+    
+    //UICollectionViewDropDelegate
+    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession,withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+        
+        if collectionView.hasActiveDrag {
+            return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+        }
+        return UICollectionViewDropProposal(operation: .forbidden)
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+        
+        let destinationIndexPath: IndexPath
+        
+        if let indexPath = coordinator.destinationIndexPath {
+            
+            destinationIndexPath = indexPath
+        }
+        
+        else {
+            let row = collectionView.numberOfItems(inSection: 0)
+            destinationIndexPath = IndexPath(item: row - 1, section: 0)
+        }
+        
+        if coordinator.proposal.operation == .move {
+            
+            self.reorderItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, collectionView: collectionView)
+        }
+        //self.cameraPhotoCollectionView.reloadData()
+       
+    }
+    
+    fileprivate func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView){
+        if let item = coordinator.items.first, let sourceIndexPth = item.sourceIndexPath {
+            collectionView.performBatchUpdates({
+                self.photosUrl.remove(at: sourceIndexPth.item)
+                self.photosUrl.insert(item.dragItem.localObject as! URL, at: destinationIndexPath.item)
+                collectionView.deleteItems(at: [sourceIndexPth])
+                collectionView.insertItems(at: [destinationIndexPath])
+            }, completion: nil)
+            coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+        }
+    }
+    
+}
+
+//MARK: - CameraCollectionViewDelegate
+extension CameraVC: CameraCollectionViewDelegate{
+    func tappedOnDeleteBtn(cell: CameraCollectionViewCell) {
+        if let indexPath = cameraPhotoCollectionView.indexPath(for: cell) {
+            let url = self.photosUrl[indexPath.item]
+            self.photosUrl.remove(at: indexPath.item)
+            self.imageCache.removeObject(forKey: url.path as NSString)
+            cameraPhotoCollectionView.performBatchUpdates({
+                self.cameraPhotoCollectionView.deleteItems(at: [indexPath])
+            }, completion: { _ in
+                self.photoStorage.deleteAsset(url, completion: {})
+            })
+        }
+    }
+}
+
+//MARK: - CaptureManagerDelegate
+extension CameraVC: CaptureManagerDelegate {
     func captureManager(_ manager: CaptureManager, didCaptureImageData data: Data) {
         cameraCaptureButton.isEnabled = true
         autoreleasepool {
@@ -220,7 +335,7 @@ extension CameraVC: CaptureManagerDelegate{
 }
 
 
-extension UIImage{
+private extension UIImage{
     func imgly_normalizedImageOfSize(_ size: CGSize) -> UIImage {
         autoreleasepool {
             UIGraphicsBeginImageContextWithOptions(size, false, scale)
