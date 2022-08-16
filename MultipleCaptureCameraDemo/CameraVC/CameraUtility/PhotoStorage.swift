@@ -10,11 +10,11 @@ import UIKit
 
 class PhotoStorage {
     private let queue = DispatchQueue(label: "com.matrix.nazmul.disk-cache-writes", attributes: [])
-
+    
     private let baseURL: URL
     private let resizeQueue = DispatchQueue(label: "com.matrix.nazmul.disk-cache-resizes", attributes: .concurrent)
     private let fileManager = FileManager()
-
+    
     init() {
         var cacheURL = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).last!
         cacheURL = cacheURL.appendingPathComponent("no.finn.finjonon.disk-cache")
@@ -75,7 +75,7 @@ class PhotoStorage {
         ensureCacheDirectoryExists()
         return baseURL.appendingPathComponent(asset)
     }
-
+    
     private func ensureCacheDirectoryExists() {
         if !fileManager.fileExists(atPath: baseURL.path) {
             var error: NSError?
@@ -87,8 +87,8 @@ class PhotoStorage {
             }
         }
     }
-
-   private func generateCurrentTimeStamp () -> String {
+    
+    private func generateCurrentTimeStamp () -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy_MM_dd_hh_mm_ss"
         return (formatter.string(from: Date()) as NSString) as String

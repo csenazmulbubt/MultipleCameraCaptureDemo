@@ -23,6 +23,7 @@ class ViewController: UIViewController{
         let vc = navController.viewControllers.first as! CameraVC
         vc.cameraVCDelegate = self
         vc.maximumPhotoCaptureLimit = 5
+        vc.backgroundColor = .black
         navController.modalPresentationStyle = .fullScreen
         self.present(navController, animated: true, completion: nil)
     }

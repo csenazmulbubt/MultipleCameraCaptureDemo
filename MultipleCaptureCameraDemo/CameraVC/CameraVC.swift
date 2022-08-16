@@ -8,6 +8,10 @@
 import UIKit
 import Foundation
 
+public enum CameraVCBackgroundColor{
+    case black,white
+}
+
 protocol CameraVCDelegate: NSObjectProtocol {
     func dismissWithPhotosUrl(photosUrl: [URL])
 }
@@ -30,6 +34,7 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
     private var currentPhotoCaptureCount = 0
     
     public var maximumPhotoCaptureLimit = 5
+    public var backgroundColor : CameraVCBackgroundColor = .black
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,18 +45,40 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
             self.cameraCaptureButton.layer.cornerRadius = self.cameraCaptureButton.bounds.size.height / 2.0
             self.setUpNavigationLeftBarButton()
         }
-        
-        if let nav = navigationController {
-            nav.navigationBar.barStyle = UIBarStyle.black
-            nav.navigationBar.tintColor = UIColor.white
-            nav.navigationBar.isTranslucent = false
-            self.setNavigationBarAppearance(navigationController: nav, withNavigationBarBackgroundColor: UIColor.black , andNavigationTitleColor:  UIColor.black)
+        self.setUpBackGroundColor()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let previewLayer = captureManager.previewLayer
+        previewLayer.frame = self.previewLayerView.bounds
+        self.previewLayerView.layer.addSublayer(previewLayer)
+        captureManager.prepare { [weak self] isPermitted in
+            if isPermitted == nil{
+                self?.showCameraPermissionAlert()
+            }
         }
-       
+        captureManager.delegate = self
     }
     
     override var prefersStatusBarHidden: Bool{
         return true
+    }
+    
+    private func setUpBackGroundColor() {
+        var navigationBgColor = UIColor.black
+        var navigationTintColor = UIColor.white
+        if backgroundColor == .white{
+            navigationTintColor = .black
+            navigationBgColor = .white
+        }
+        self.view.backgroundColor = navigationBgColor
+        cameraCaptureButton.buttonColor = navigationTintColor
+        if let nav = navigationController {
+            nav.navigationBar.tintColor = navigationTintColor
+            nav.navigationBar.isTranslucent = false
+            self.setNavigationBarAppearance(navigationController: nav, withNavigationBarBackgroundColor: navigationBgColor , andNavigationTitleColor:  navigationTintColor)
+        }
     }
     
     private func setUpNavigationLeftBarButton(){
@@ -99,19 +126,6 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
         self.cameraPhotoCollectionView!.collectionViewLayout = layout
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        let previewLayer = captureManager.previewLayer
-        previewLayer.frame = self.previewLayerView.bounds
-        self.previewLayerView.layer.addSublayer(previewLayer)
-        captureManager.prepare { [weak self] isPermitted in
-            if isPermitted == nil{
-                self?.showCameraPermissionAlert()
-            }
-        }
-        captureManager.delegate = self
-    }
-    
     @IBAction func switchCameraBtnAction(_ sender: UIButton) {
         if captureManager.selectedCameraType == .back{
             captureManager.selectedCameraType = .front
@@ -126,8 +140,6 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
         cameraVCDelegate?.dismissWithPhotosUrl(photosUrl: self.photosUrl)
         self.dismiss(animated: true, completion: nil)
     }
-    
-    
     
     @IBAction func tappedOnCaptureBtn(_ sender: TriggerButton) {
         if currentPhotoCaptureCount == maximumPhotoCaptureLimit {
@@ -155,17 +167,6 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
                 break
             }
         }
-      
-    }
-    
-    private func roundifyButton(_ button: UIButton, inset: CGFloat = 16) {
-        button.tintColor = UIColor.white
-
-        button.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-        button.layer.borderColor = button.tintColor!.cgColor
-        button.layer.borderWidth = 1.0
-        button.layer.cornerRadius = button.bounds.height / 2
-        button.configuration?.imagePadding -= inset
     }
     
     private func didAddAsset() {
@@ -238,10 +239,10 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
                                                 style: .default) { action -> Void in
             //self.gotoAppPrivacySettings()
         })
-       /* alertController.addAction(UIAlertAction(title: "Cancel",
-                                                style: .cancel) { action -> Void in
-            self.dismiss(animated: true, completion: nil)
-        })*/
+        /* alertController.addAction(UIAlertAction(title: "Cancel",
+         style: .cancel) { action -> Void in
+         self.dismiss(animated: true, completion: nil)
+         })*/
         self.present(alertController, animated: true, completion: nil)
     }
     
@@ -295,7 +296,6 @@ extension CameraVC: UICollectionViewDragDelegate,UICollectionViewDropDelegate{
     }
     
     func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
-        
         return true
     }
     
@@ -306,7 +306,6 @@ extension CameraVC: UICollectionViewDragDelegate,UICollectionViewDropDelegate{
             return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
         }
         return UICollectionViewDropProposal(operation: .forbidden)
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
@@ -328,7 +327,6 @@ extension CameraVC: UICollectionViewDragDelegate,UICollectionViewDropDelegate{
             self.reorderItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, collectionView: collectionView)
         }
         //self.cameraPhotoCollectionView.reloadData()
-       
     }
     
     fileprivate func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView){
