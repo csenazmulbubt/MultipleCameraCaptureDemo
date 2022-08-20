@@ -418,7 +418,6 @@ extension CaptureManager: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         let time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
         let fps: Int32 = 1 // Create pixel buffer and call the delegate 1 time per second
-        
         guard (time - lastVideoCaptureTime) >= CMTime.init(value: 1, timescale: fps) else {
             return
         }

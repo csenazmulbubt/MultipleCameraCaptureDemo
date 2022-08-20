@@ -14,6 +14,7 @@ public enum CameraVCBackgroundColor{
 
 protocol CameraVCDelegate: NSObjectProtocol {
     func dismissWithPhotosUrl(photosUrl: [URL])
+    func maximumPhotoCaptureAlert(maximumPhotoCaptureLimit: Int)
 }
 
 class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
@@ -143,7 +144,7 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
     
     @IBAction func tappedOnCaptureBtn(_ sender: TriggerButton) {
         if currentPhotoCaptureCount == maximumPhotoCaptureLimit {
-            self.exceedMaximumPhotoCaptureAlert()
+            cameraVCDelegate?.maximumPhotoCaptureAlert(maximumPhotoCaptureLimit: maximumPhotoCaptureLimit)
             return
         }
         sender.isEnabled = false
@@ -225,24 +226,6 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
                                                 style: .cancel) { action -> Void in
             self.dismiss(animated: true, completion: nil)
         })
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
-    private func exceedMaximumPhotoCaptureAlert() -> Void {
-        
-        let title = "Exceeded Maximum Limit"
-        //let message = "This app requires access to your device's Camera.\n\nPlease enable Camera access for this app in Settings / Privacy / Camera"
-        
-        let alertController = UIAlertController(title: title, message: "", preferredStyle: .alert)
-        
-        alertController.addAction(UIAlertAction(title: "OK",
-                                                style: .default) { action -> Void in
-            //self.gotoAppPrivacySettings()
-        })
-        /* alertController.addAction(UIAlertAction(title: "Cancel",
-         style: .cancel) { action -> Void in
-         self.dismiss(animated: true, completion: nil)
-         })*/
         self.present(alertController, animated: true, completion: nil)
     }
     
