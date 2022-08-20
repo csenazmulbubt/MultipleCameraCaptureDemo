@@ -127,7 +127,7 @@
 		004F800B28A8B51C00D504DC /* MultipleCaptureCameraDemo */ = {
 			isa = PBXGroup;
 			children = (
-				004F803C28A8C09700D504DC /* CameraVC */,
+				004F803C28A8C09700D504DC /* CustomCamera */,
 				004F800C28A8B51C00D504DC /* AppDelegate.swift */,
 				004F800E28A8B51C00D504DC /* SceneDelegate.swift */,
 				004F801028A8B51C00D504DC /* ViewController.swift */,
@@ -156,7 +156,7 @@
 			path = MultipleCaptureCameraDemoUITests;
 			sourceTree = "<group>";
 		};
-		004F803C28A8C09700D504DC /* CameraVC */ = {
+		004F803C28A8C09700D504DC /* CustomCamera */ = {
 			isa = PBXGroup;
 			children = (
 				004BAF7E28B0B2AB006964AE /* Resources */,
@@ -166,7 +166,7 @@
 				004F803D28A8C0BD00D504DC /* CameraVC.swift */,
 				000E08DC28AB8D1900CC126F /* Camera.storyboard */,
 			);
-			path = CameraVC;
+			path = CustomCamera;
 			sourceTree = "<group>";
 		};
 		004F804128A8CBF100D504DC /* CameraUtility */ = {
