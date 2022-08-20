@@ -199,7 +199,7 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
                     }
                     let newWidth  = CGFloat(roundf(Float(image.size.width) * Float(scale)))
                     let newHeight = CGFloat(roundf(Float(image.size.height) * Float(scale)))
-                    let resizeImg = image.imgly_normalizedImageOfSize(CGSize(width: newWidth, height: newHeight))
+                    let resizeImg = image.normalizedImageOfSize(CGSize(width: newWidth, height: newHeight))
                     self.imageCache.setObject(resizeImg, forKey: imagePath as NSString)
                     return resizeImg
                 }
@@ -372,7 +372,7 @@ extension CameraVC: CaptureManagerDelegate {
 
 
 private extension UIImage{
-    func imgly_normalizedImageOfSize(_ size: CGSize) -> UIImage {
+    func normalizedImageOfSize(_ size: CGSize) -> UIImage {
         autoreleasepool {
             UIGraphicsBeginImageContextWithOptions(size, false, scale)
             draw(in: CGRect(origin: CGPoint.zero, size: size))
