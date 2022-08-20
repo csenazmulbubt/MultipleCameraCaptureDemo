@@ -20,6 +20,7 @@ protocol CameraVCDelegate: NSObjectProtocol {
 class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
     
     @IBOutlet weak var cameraCaptureButton: TriggerButton!
+    @IBOutlet weak var cameraToggleBtn: UIButton!
     @IBOutlet weak var previewLayerView: UIView!
     @IBOutlet weak var flashBarButton: UIBarButtonItem!
     @IBOutlet weak var cameraPhotoCollectionView: UICollectionView!
@@ -75,6 +76,8 @@ class CameraVC: UIViewController, UICollectionViewDelegateFlowLayout{
         }
         self.view.backgroundColor = navigationBgColor
         cameraCaptureButton.buttonColor = navigationTintColor
+        cameraToggleBtn.tintColor = navigationTintColor
+        
         if let nav = navigationController {
             nav.navigationBar.tintColor = navigationTintColor
             nav.navigationBar.isTranslucent = false

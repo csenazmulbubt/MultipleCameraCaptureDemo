@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		000E08DD28AB8D1900CC126F /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 000E08DC28AB8D1900CC126F /* Camera.storyboard */; };
+		004BAF8028B0B2E7006964AE /* CameraVCAsset.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 004BAF7F28B0B2E7006964AE /* CameraVCAsset.xcassets */; };
 		004F800D28A8B51C00D504DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F800C28A8B51C00D504DC /* AppDelegate.swift */; };
 		004F800F28A8B51C00D504DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F800E28A8B51C00D504DC /* SceneDelegate.swift */; };
 		004F801128A8B51C00D504DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F801028A8B51C00D504DC /* ViewController.swift */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		000E08DC28AB8D1900CC126F /* Camera.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
+		004BAF7F28B0B2E7006964AE /* CameraVCAsset.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CameraVCAsset.xcassets; sourceTree = "<group>"; };
 		004F800928A8B51C00D504DC /* MultipleCaptureCameraDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultipleCaptureCameraDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		004F800C28A8B51C00D504DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		004F800E28A8B51C00D504DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +96,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		004BAF7E28B0B2AB006964AE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				004BAF7F28B0B2E7006964AE /* CameraVCAsset.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		004F800028A8B51C00D504DC = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +159,7 @@
 		004F803C28A8C09700D504DC /* CameraVC */ = {
 			isa = PBXGroup;
 			children = (
+				004BAF7E28B0B2AB006964AE /* Resources */,
 				00B2AC1E28AA34AD006425D9 /* CaptureManager */,
 				004F804428A8FD7300D504DC /* CameraCollectionViewCell */,
 				004F804128A8CBF100D504DC /* CameraUtility */,
@@ -292,6 +303,7 @@
 			files = (
 				004F801928A8B51F00D504DC /* LaunchScreen.storyboard in Resources */,
 				004F801628A8B51F00D504DC /* Assets.xcassets in Resources */,
+				004BAF8028B0B2E7006964AE /* CameraVCAsset.xcassets in Resources */,
 				004F801428A8B51C00D504DC /* Main.storyboard in Resources */,
 				004F804828A8FDCD00D504DC /* CameraCollectionViewCell.xib in Resources */,
 				000E08DD28AB8D1900CC126F /* Camera.storyboard in Resources */,

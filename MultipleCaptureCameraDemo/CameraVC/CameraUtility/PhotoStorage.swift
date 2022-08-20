@@ -17,7 +17,7 @@ class PhotoStorage {
     
     init() {
         var cacheURL = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).last!
-        cacheURL = cacheURL.appendingPathComponent("no.finn.finjonon.disk-cache")
+        cacheURL = cacheURL.appendingPathComponent("com.matrix.nazmul.disk-cache")
         baseURL = cacheURL.appendingPathComponent(NSUUID().uuidString)
     }
     
@@ -44,7 +44,6 @@ class PhotoStorage {
                     } catch {
                         fatalError()
                     }
-                    print("CACHED URL",cacheURL.path)
                     DispatchQueue.main.async {
                         completion(cacheURL)
                     }
